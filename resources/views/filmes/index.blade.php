@@ -32,7 +32,7 @@
                 </thead>
                 <tbody>
                 @if($filmes->isEmpty())
-                    <td colspan="6">
+                    <td colspan="12">
                             <span class="text-danger">
                                 <strong>Nenhum filme encontrado</strong>
                             </span>
@@ -58,7 +58,6 @@
                                     <a href="{{ route('filmes.edit', $filme->id) }}" class="btn btn-primary btn-sm"
                                        data-bs-toggle="tooltip" data-bs-title="Editar"><i
                                             class="bi bi-pencil-square"></i></a>
-
                                     <button type="submit" class="btn btn-danger btn-sm" data-bs-toggle="tooltip"
                                             data-bs-title="Deletar"><i class="bi bi-trash"
                                                                        onclick="return confirm('Você realmente quer deletar esse filme?')"></i>

@@ -18,7 +18,4 @@ class Filme extends Model
         'data_lancamento',
         'nota',
     ];
-
-
-
 }
