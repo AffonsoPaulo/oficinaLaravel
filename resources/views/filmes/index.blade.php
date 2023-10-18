@@ -1,9 +1,10 @@
 @extends('filmes.layout')
 @section('content')
 
-    @if($message = Session::get('success'))
-        <div class="alert alert-success mt-3" role="alert">
-            <p>{{ $message }}</p>
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ $message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
@@ -12,7 +13,8 @@
             <h3 class="mt-3">Lista de Filmes</h3>
         </div>
         <div class="card-body">
-            <a href="{{ route('filmes.create') }}" class="btn btn-success btn-sm my-2"><i class="bi bi-plus-circle"></i>Adicionar
+            <a href="{{ route('filmes.create') }}" class="btn btn-success my-2 col-12"><i class="bi bi-plus-circle"></i>
+                Adicionar
                 filme</a>
             <table class="table table-stripped table-bordered">
                 <thead>
@@ -29,39 +31,43 @@
                 </tr>
                 </thead>
                 <tbody>
-                @forelse ($filmes as $filme)
-                    <tr>
-                        <th>{{ $filme->id }}</th>
-                        <td>{{ $filme->titulo }}</td>
-                        <td>{{ $filme->diretor }}</td>
-                        <td>{{ $filme->genero }}</td>
-                        <td>{{ $filme->classificacao }}</td>
-                        <td>{{ $filme->sinopse }}</td>
-                        <td>{{ $filme->data_lancamento }}</td>
-                        <td>{{ $filme->nota }}</td>
-                        <td>
-                            <form action="{{ route('filmes.destroy'), $filme->id }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <a href="{{ route('filmes.show'), $filme->id }}" class="btn btn-warning btn-sm"><i
-                                        class="bi bi-eye"></i> Mostrar</a>
-                                <a href="{{ route('filmes.edit'), $filme->id }}" class="btn btn-primary btn-sm"><i
-                                        class="bi bi-pencil-square"></i> Editar</a>
-
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"
-                                                                                       onclick="return confirm('Você realmente quer deletar esse filme?')"></i>
-                                    Deletar
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
+                @if($filmes->isEmpty())
                     <td colspan="6">
                             <span class="text-danger">
                                 <strong>Nenhum filme encontrado</strong>
                             </span>
                     </td>
-                @endforelse
+                @else
+                    @foreach($filmes as $filme)
+                        <tr>
+                            <th>{{ $filme->id }}</th>
+                            <td>{{ $filme->titulo }}</td>
+                            <td>{{ $filme->diretor }}</td>
+                            <td>{{ $filme->genero }}</td>
+                            <td>{{ $filme->classificacao }}</td>
+                            <td>{{ $filme->sinopse }}</td>
+                            <td>{{ $filme->data_lancamento }}</td>
+                            <td>{{ $filme->nota }}</td>
+                            <td>
+                                <form action="{{ route('filmes.destroy', $filme->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <a href="{{ route('filmes.show', $filme->id) }}" class="btn btn-warning btn-sm"
+                                       data-bs-toggle="tooltip" data-bs-title="Visualizar"><i
+                                            class="bi bi-eye"></i></a>
+                                    <a href="{{ route('filmes.edit', $filme->id) }}" class="btn btn-primary btn-sm"
+                                       data-bs-toggle="tooltip" data-bs-title="Editar"><i
+                                            class="bi bi-pencil-square"></i></a>
+
+                                    <button type="submit" class="btn btn-danger btn-sm" data-bs-toggle="tooltip"
+                                            data-bs-title="Deletar"><i class="bi bi-trash"
+                                                                       onclick="return confirm('Você realmente quer deletar esse filme?')"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
                 </tbody>
             </table>
         </div>

@@ -12,6 +12,7 @@ class FilmeController extends Controller
      */
     public function index()
     {
+        //return ['filmes' => Filme::all()];
         return view('filmes.index', [
             'filmes' => Filme::all()
         ]);
